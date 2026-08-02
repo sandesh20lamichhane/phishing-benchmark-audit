@@ -1,0 +1,5 @@
+corpus,n,malformed_n,malformed_pct,unique_domains
+phiusiil,60000,0,0.0,46716
+kaggle_malicious,60000,4,0.0067,26307
+kaggle_linkphish,19431,0,0.0,6635
+mendeley_phishurl,60000,0,0.0,26949

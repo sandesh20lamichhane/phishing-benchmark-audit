@@ -1,0 +1,13 @@
+corpus,baseline,model,auc_xgb,auc_other,diff,p_raw,p_holm,significant
+phiusiil,XGBoost,NaiveBayes,0.9991,0.9977,0.0014,2.451658893747554e-05,0.000147,True
+phiusiil,XGBoost,LogisticReg,0.9991,0.9985,0.0007,0.027353423039368416,0.109414,False
+phiusiil,XGBoost,RandomForest,0.9991,0.9994,-0.0002,0.2072654423157021,0.414531,False
+kaggle_malicious,XGBoost,NaiveBayes,0.944,0.7959,0.1481,3.708406782283291e-169,0.0,True
+kaggle_malicious,XGBoost,LogisticReg,0.944,0.8445,0.0995,2.1505407583536845e-124,0.0,True
+kaggle_malicious,XGBoost,RandomForest,0.944,0.9474,-0.0033,0.036944694692696727,0.110834,False
+kaggle_linkphish,XGBoost,NaiveBayes,0.9477,0.824,0.1236,2.837137653546562e-81,0.0,True
+kaggle_linkphish,XGBoost,LogisticReg,0.9477,0.9037,0.044,3.30275349827582e-30,0.0,True
+kaggle_linkphish,XGBoost,RandomForest,0.9477,0.9406,0.0071,0.00018889293570497796,0.000944,True
+mendeley_phishurl,XGBoost,NaiveBayes,0.9968,0.9633,0.0335,6.459151859238959e-81,0.0,True
+mendeley_phishurl,XGBoost,LogisticReg,0.9968,0.9868,0.0101,2.1157918531673056e-17,0.0,True
+mendeley_phishurl,XGBoost,RandomForest,0.9968,0.9965,0.0004,0.3959491510848424,0.414531,False

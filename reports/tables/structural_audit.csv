@@ -1,0 +1,6 @@
+corpus,n,https_legit,https_phish,empty_path_legit,empty_path_phish,has_query_legit,has_query_phish,max_gap_pp,degenerate_cells,malformed_pct
+mendeley_phishurl,60000,100.0,34.8,0.74,5.02,13.56,16.2,65.2,1,0.0
+phiusiil,60000,100.0,48.55,100.0,40.39,0.0,5.96,59.61,3,0.0
+kaggle_malicious,60000,0.5,7.68,0.07,23.4,17.12,8.41,23.32,0,0.0067
+hannousse,11430,44.5,33.32,6.16,5.02,3.34,23.67,20.33,0,0.0
+kaggle_linkphish,19431,44.5,33.28,6.23,5.21,3.32,23.61,20.29,0,0.0

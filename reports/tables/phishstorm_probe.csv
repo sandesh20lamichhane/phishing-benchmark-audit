@@ -1,0 +1,6 @@
+train,test,seed,kind,roc_auc
+phiusiil,phishstorm,42,cross,0.7117
+phiusiil,phishstorm,43,cross,0.7115
+phiusiil,phishstorm,44,cross,0.6966
+phiusiil,phishstorm,45,cross,0.7356
+phiusiil,phishstorm,46,cross,0.7225

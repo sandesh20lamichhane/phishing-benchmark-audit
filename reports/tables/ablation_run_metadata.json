@@ -1,0 +1,39 @@
+{
+  "xgboost": "3.3.0",
+  "sklearn": "1.6.1",
+  "python": "3.12.13",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "cap": 60000,
+  "dropped_targeted": [
+    "has_double_slash_path",
+    "is_https",
+    "longest_token_path",
+    "n_ampersand",
+    "n_equals",
+    "n_question",
+    "n_slashes",
+    "path_length",
+    "query_length",
+    "url_length"
+  ],
+  "host_only": [
+    "host_length",
+    "n_subdomains",
+    "subdomain_length",
+    "domain_length",
+    "tld_length",
+    "is_ip_host",
+    "is_hex_host",
+    "has_port",
+    "is_shortener",
+    "has_punycode",
+    "host_entropy",
+    "has_https_token_in_host"
+  ]
+}

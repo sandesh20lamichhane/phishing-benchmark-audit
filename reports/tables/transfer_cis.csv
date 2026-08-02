@@ -1,0 +1,17 @@
+train,test,kind,roc_auc,ci_lo,ci_hi
+kaggle_malicious,mendeley_phishurl,cross,0.2004,0.196,0.2049
+mendeley_phishurl,kaggle_malicious,cross,0.2291,0.224,0.2343
+phiusiil,kaggle_malicious,cross,0.2467,0.2411,0.252
+kaggle_malicious,phiusiil,cross,0.3998,0.3948,0.405
+kaggle_malicious,hannousse,cross,0.4596,0.4493,0.4706
+hannousse,kaggle_malicious,cross,0.5611,0.5553,0.5669
+phiusiil,hannousse,cross,0.6936,0.6834,0.7029
+mendeley_phishurl,hannousse,cross,0.7802,0.7717,0.7885
+hannousse,phiusiil,cross,0.872,0.8689,0.8752
+phiusiil,mendeley_phishurl,cross,0.921,0.9181,0.9238
+hannousse,mendeley_phishurl,cross,0.9398,0.9378,0.9418
+mendeley_phishurl,phiusiil,cross,0.9787,0.9771,0.9802
+kaggle_malicious,kaggle_malicious,within,0.9363,0.9294,0.9432
+hannousse,hannousse,within,0.9463,0.9379,0.9545
+mendeley_phishurl,mendeley_phishurl,within,0.9946,0.9927,0.9964
+phiusiil,phiusiil,within,0.9989,0.9981,0.9995

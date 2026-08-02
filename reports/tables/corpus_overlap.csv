@@ -1,0 +1,11 @@
+corpus_a,corpus_b,norm_overlap,norm_jaccard,norm_containment,domain_overlap,domain_jaccard,domain_containment
+hannousse,kaggle_linkphish,11070,1.0,1.0,6635,1.0,1.0
+kaggle_malicious,mendeley_phishurl,4618,0.0402,0.0773,5516,0.1155,0.2097
+kaggle_malicious,kaggle_linkphish,347,0.0049,0.0313,769,0.0239,0.1159
+hannousse,kaggle_malicious,347,0.0049,0.0313,769,0.0239,0.1159
+hannousse,mendeley_phishurl,153,0.0022,0.0138,695,0.0211,0.1047
+kaggle_linkphish,mendeley_phishurl,153,0.0022,0.0138,695,0.0211,0.1047
+phiusiil,kaggle_linkphish,62,0.0009,0.0056,327,0.0062,0.0493
+phiusiil,hannousse,62,0.0009,0.0056,327,0.0062,0.0493
+phiusiil,mendeley_phishurl,222,0.0019,0.0037,886,0.0122,0.0329
+phiusiil,kaggle_malicious,34,0.0003,0.0006,814,0.0113,0.0309

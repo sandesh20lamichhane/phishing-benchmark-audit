@@ -1,0 +1,9 @@
+# versions used for the reported runs (Google Colab, August 2026)
+pandas
+numpy
+scikit-learn==1.6.1
+xgboost==3.3.0
+scipy
+matplotlib
+tldextract
+requests

@@ -1,0 +1,5 @@
+dataset,class,n,scheme_present,https,empty_path,has_query
+ebbu2017,legit,29640,100.0,36.75,0.0,4.08
+ebbu2017,phish,30360,99.49,1.83,0.67,21.4
+phishstorm,legit,30007,0.0,0.0,0.0,4.76
+phishstorm,phish,29993,0.0,0.0,0.57,32.76

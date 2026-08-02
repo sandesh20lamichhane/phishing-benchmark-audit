@@ -1,0 +1,6 @@
+model,featset,n_features,within_mean,cross_mean,n_inverted,min_transfer
+xgb,targeted_ablation,22,0.9488,0.5734,5,0.2671
+xgb,host_only,12,0.8484,0.5607,6,0.1889
+lr,full,32,0.9296,0.5443,6,0.0165
+lr,targeted_ablation,22,0.864,0.56,6,0.2204
+lr,host_only,12,0.7968,0.5272,6,0.1506

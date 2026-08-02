@@ -1,0 +1,2 @@
+within_mean,within_sd,cross_mean,cross_sd,gap,cliffs_delta,n_inverted,min_transfer_auc,n_corpora
+0.97,0.028,0.6038,0.2867,0.3662,0.8883,25,0.1898,4

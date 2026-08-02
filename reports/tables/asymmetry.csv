@@ -1,0 +1,7 @@
+corpus_a,corpus_b,auc_a_to_b,auc_b_to_a,asymmetry,p_raw,p_holm,significant
+phiusiil,hannousse,0.688,0.8603,0.1723,0.007936507936507936,0.04762,True
+hannousse,mendeley_phishurl,0.94,0.7823,0.1578,0.007936507936507936,0.04762,True
+phiusiil,kaggle_malicious,0.2427,0.3667,0.124,0.007936507936507936,0.04762,True
+hannousse,kaggle_malicious,0.5561,0.4618,0.0943,0.007936507936507936,0.04762,True
+phiusiil,mendeley_phishurl,0.9296,0.9788,0.0492,0.007936507936507936,0.04762,True
+kaggle_malicious,mendeley_phishurl,0.202,0.2379,0.0358,0.007936507936507936,0.04762,True
