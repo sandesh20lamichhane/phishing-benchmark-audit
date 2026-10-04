@@ -114,9 +114,12 @@ def load_corpora():
     return corpora
 
 
+def build_canon_tag():
+    return "canon_" + (hashlib.md5(",".join(EXTRAS).encode()).hexdigest()[:8] if EXTRAS else "core")
+
+
 def build_canon():
-    tag = hashlib.md5(",".join(EXTRAS).encode()).hexdigest()[:8] if EXTRAS else "core"
-    path = CACHE / f"canon_{tag}.pkl"
+    path = CACHE / f"{build_canon_tag()}.pkl"
     if path.exists():
         return pd.read_pickle(path)
     CACHE.mkdir(parents=True, exist_ok=True)
@@ -293,6 +296,34 @@ def step_shap(canon):
     pd.DataFrame(rows).to_csv(OUT / "shap_separation.csv", index=False)
 
 
+def strip_www(urls):
+    """Remove a leading www./wwwN. label from the host, keeping any scheme."""
+    return urls.str.replace(r"^((?:[a-z][a-z0-9+.-]*://)?)www\d*\.(?=[^/:?#]*\.)", r"\1",
+                            regex=True, case=False)
+
+
+def step_www(canon):
+    """XGBoost on features recomputed after removing a leading www. from every host.
+
+    The legitimate classes of PhiUSIIL and Mendeley PhishURL carry the prefix
+    almost without exception and Kaggle Malicious's almost never does; this
+    tests whether that convention drives the host-level inversions. Split,
+    domains and overlap masks are those of the unmodified corpora.
+    """
+    path = CACHE / f"{build_canon_tag()}_nowww.pkl"
+    if path.exists():
+        nowww = pd.read_pickle(path)
+    else:
+        nowww = {}
+        for k in KEYS:
+            X = uf.build_canonical_matrix(strip_www(canon[k]["url"])).reset_index(drop=True)
+            nowww[k] = {**canon[k], "X": X}
+            print(f"  [www] features recomputed for {k}", flush=True)
+        pd.to_pickle(nowww, path)
+    run_matrix(nowww, "xgb_nowww", make_xgb, lambda k, f: nowww[k]["X"][f],
+               ["host_only", "targeted_ablation", "full"], seeds_cross=SEEDS)
+
+
 def step_tranco(canon):
     ranks = pd.read_csv(TRANCO, header=None, names=["rank", "domain"])
     top = {n: set(ranks.domain[ranks["rank"] <= n]) for n in (10_000, 100_000, 1_000_000)}
@@ -346,7 +377,8 @@ def step_audit(canon):
                          "scheme_present_pct": round(100 * url[m].str.contains("://", regex=False).mean(), 2),
                          "https_pct": round(100 * url[m].str.startswith("https://").mean(), 2),
                          "empty_path_pct": round(100 * (X["path_length"][m] == 0).mean(), 2),
-                         "query_pct": round(100 * (X["query_length"][m] > 0).mean(), 2)})
+                         "query_pct": round(100 * (X["query_length"][m] > 0).mean(), 2),
+                         "www_pct": round(100 * strip_www(url[m]).ne(url[m]).mean(), 2)})
     audit = pd.DataFrame(rows)
     audit.to_csv(OUT / "structural_audit_all.csv", index=False)
     print(audit.to_string(index=False))
@@ -364,7 +396,7 @@ def step_audit(canon):
 
 
 STEPS = {"audit": step_audit, "xgb": step_xgb, "lr": step_lr, "tfidf": step_tfidf, "shap": step_shap,
-         "tranco": step_tranco, "mendeley": step_mendeley}
+         "tranco": step_tranco, "mendeley": step_mendeley, "www": step_www}
 
 
 def main():

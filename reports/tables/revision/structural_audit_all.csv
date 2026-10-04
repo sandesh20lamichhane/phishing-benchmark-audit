@@ -1,0 +1,13 @@
+dataset,class,n,scheme_present_pct,https_pct,empty_path_pct,query_pct,www_pct
+phiusiil,legit,34397,100.0,100.0,100.0,0.0,100.0
+phiusiil,phish,25603,100.0,48.55,40.39,5.96,41.34
+mendeley_phishurl,legit,41067,100.0,99.99,0.74,13.56,99.83
+mendeley_phishurl,phish,18933,100.0,34.8,5.02,16.2,9.55
+kaggle_malicious,legit,49169,8.3,0.48,0.07,17.12,3.2
+kaggle_malicious,phish,10831,26.01,7.68,23.4,8.41,38.65
+hannousse,legit,5715,100.0,44.5,6.16,3.34,66.95
+hannousse,phish,5715,100.0,33.32,5.02,23.67,20.7
+ebbu2017,legit,29640,100.0,36.75,0.0,4.08,58.55
+ebbu2017,phish,30360,99.49,1.83,0.67,21.4,28.32
+phishstorm,legit,30007,0.0,0.0,0.0,4.76,63.19
+phishstorm,phish,29993,0.02,0.0,0.57,32.76,28.4
