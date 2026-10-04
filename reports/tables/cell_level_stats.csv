@@ -1,0 +1,2 @@
+n_within_cells,n_cross_cells,within_mean,within_sd,cross_mean,cross_sd,gap,perm_hits,perm_total,perm_p_one_sided,cliffs_delta,cross_min,cross_max,n_inverted
+5,20,0.9715,0.0272,0.6694,0.2742,0.3021,37,53130,0.0006964050442311312,0.86,0.202,0.9788,6

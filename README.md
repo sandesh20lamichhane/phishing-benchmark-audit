@@ -9,13 +9,15 @@ Code and result tables for:
 Machine learning models for phishing URL detection routinely report accuracies
 above 99% on public benchmarks. We audit five independent public datasets with a
 common structural diagnostic and find that this figure is not evidence of
-detection capability. Two of the five exhibit **degenerate class properties** — a
-structural attribute of the URL fixed by construction across an entire class. In
+detection capability. Three of the five exhibit **degenerate class properties** — a
+structural attribute of the URL fixed by construction across an entire class —
+and in two of them the property separates the classes. In
 PhiUSIIL, all 134,850 legitimate URLs use HTTPS, have an empty path, and carry no
 query string, while the phishing class consists of complete URLs.
 
 Under cross-dataset transfer, mean ROC-AUC falls from 0.9715 to 0.6694
-(gap 0.3021, permutation *p* < 0.001, Cliff's δ = 0.86). More tellingly,
+(gap 0.3021; exact permutation test over the 25 dataset-pair cells, *p* = 7.0×10⁻⁴;
+Cliff's δ = 0.86). More tellingly,
 **six of twenty transfer results fall below 0.5**, reaching 0.2020: these models
 are not uninformative but systematically *inverted*, because the datasets encode
 contradictory structural conventions. An ablation removing every scheme-, path-,
@@ -69,6 +71,12 @@ Run in order on Google Colab (Drive-mounted; paths are set inside the notebooks)
 | `07_dedup_fix_and_figures` | deduplicated dataset set, corrected 4×4 transfer matrix, statistics (Table 3) |
 | `08_ablation_and_model_robustness_v2` | causal ablation and logistic-regression robustness (Table 5) |
 | `09_fifth_dataset_and_provenance_v2` | Ebbu2017 acquisition, PhishStorm containment, 5×5 matrix, all figures |
+
+`scripts/cell_level_stats.py` recomputes the aggregate within- vs cross-dataset
+gap from `reports/tables/transfer_matrix_5way.csv`, treating each dataset-pair
+cell (mean over five seeds) as one observation, and writes
+`reports/tables/cell_level_stats.csv`. Seeds of one cell share their data, so
+the cell is the correct unit for the permutation test and Cliff's δ.
 
 Notebooks 02 and 03 are included for completeness (initial acquisition and
 feature/split development). Every long-running cell checkpoints to Drive and
