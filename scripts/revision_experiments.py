@@ -31,6 +31,7 @@ Every step appends to its CSV under OUT_DIR (default
 reports/tables/revision/) and resumes.
 """
 import hashlib
+import json
 import os
 import sys
 import time
@@ -115,13 +116,48 @@ def load_corpora():
 
 
 def build_canon_tag():
-    return "canon_" + (hashlib.md5(",".join(EXTRAS).encode()).hexdigest()[:8] if EXTRAS else "core")
+    """Cache key: the extra corpora's names, sizes and modification times, so a
+    rebuilt corpus never reuses a stale cache."""
+    if not EXTRAS:
+        return "canon_core"
+    sig = ",".join(f"{k}:{(EXTRA / f'{k}.csv').stat().st_size}:{int((EXTRA / f'{k}.csv').stat().st_mtime)}"
+                   for k in EXTRAS)
+    return "canon_" + hashlib.md5(sig.encode()).hexdigest()[:8]
+
+
+RESULT_FILES = ("matrix_results.csv", "char_cnn_results.csv", "transformer_results.csv")
+
+
+def drop_stale_results(canon):
+    """Remove result rows for any corpus whose content changed since they were computed.
+
+    Every runner skips (train, test, seed) cells already in its results file, so
+    without this a rebuilt corpus would silently keep the old corpus's numbers.
+    """
+    fp_path = OUT / "corpus_fingerprints.json"
+    fps = {k: hashlib.md5("\n".join(v["url"] + "\t" + v["y"].astype(str)).encode()).hexdigest()
+           for k, v in canon.items()}
+    old = json.loads(fp_path.read_text()) if fp_path.exists() else {}
+    changed = [k for k in fps if k in old and old[k] != fps[k]]
+    for name in RESULT_FILES if changed else ():
+        p = OUT / name
+        if p.exists():
+            d = pd.read_csv(p)
+            keep = ~(d.train.isin(changed) | d.test.isin(changed))
+            if (~keep).any():
+                d[keep].to_csv(p, index=False)
+                print(f"[stale] {name}: removed {int((~keep).sum()):,} rows computed on the "
+                      f"previous version of {', '.join(changed)}", flush=True)
+    OUT.mkdir(parents=True, exist_ok=True)
+    fp_path.write_text(json.dumps({**old, **fps}, indent=1))
 
 
 def build_canon():
     path = CACHE / f"{build_canon_tag()}.pkl"
     if path.exists():
-        return pd.read_pickle(path)
+        canon = pd.read_pickle(path)
+        drop_stale_results(canon)
+        return canon
     CACHE.mkdir(parents=True, exist_ok=True)
     canon = {}
     for key, df in load_corpora().items():
@@ -137,6 +173,7 @@ def build_canon():
         print(f"[load] {key}: n={len(df):,} phishing_rate={df.label.mean():.4f} "
               f"({time.time() - t0:.0f}s)", flush=True)
     pd.to_pickle(canon, path)
+    drop_stale_results(canon)
     return canon
 
 

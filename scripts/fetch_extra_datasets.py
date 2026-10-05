@@ -67,16 +67,24 @@ def full_sets():
         sets[key] = set(d[col].astype(str).map(rx.normalise))
     extras = {p.stem: set(pd.read_csv(p, low_memory=False)["url"].astype(str).map(rx.normalise))
               for p in sorted(rx.EXTRA.glob("*.csv"))}
-    return sets, extras
+    moved = {p.stem: set(pd.read_csv(p, low_memory=False)["url"].astype(str).map(rx.normalise))
+             for p in sorted((rx.RAW / "duplicates").glob("*.csv"))}
+    return sets, extras, moved
 
 
 def provenance(threshold=0.5):
     """Keep an extra corpus only if no core corpus or already-kept extra contains it."""
-    if not rx.EXTRA.is_dir() or not any(rx.EXTRA.glob("*.csv")):
-        return
-    core, extras = full_sets()
-    kept, rows = {}, []
     dup_dir = rx.RAW / "duplicates"
+    if not any(rx.EXTRA.glob("*.csv")) and not any(dup_dir.glob("*.csv")):
+        return
+    core, extras, moved = full_sets()
+    kept, rows = {}, []
+    for e, es in moved.items():          # moved on an earlier run: re-reported so the evidence stays in the table
+        for k, ks in core.items():
+            shared = len(es & ks)
+            rows.append({"extra": e, "other": k, "extra_urls": len(es), "other_urls": len(ks),
+                         "shared": shared, "status": "duplicate (moved earlier)",
+                         "containment": round(shared / max(min(len(es), len(ks)), 1), 4)})
     for e, es in extras.items():
         ours = e.startswith("aligned_")    # built by build_aligned_benchmark.py; matched is a subset of natural by design
         found = []
@@ -85,8 +93,10 @@ def provenance(threshold=0.5):
             found.append({"extra": e, "other": k, "extra_urls": len(es), "other_urls": len(ks),
                           "shared": shared,
                           "containment": round(shared / max(min(len(es), len(ks)), 1), 4)})
-        rows += found
         top = max(found, key=lambda r: r["containment"])
+        status = ("built here" if ours else
+                  "duplicate (moved)" if top["containment"] > threshold else "kept")
+        rows += [{**r, "status": status} for r in found]
         if ours:
             print(f"[{e}] max containment {top['containment']:.3f} ({top['other']}): built here, kept")
         elif top["containment"] > threshold:

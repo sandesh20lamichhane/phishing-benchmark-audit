@@ -12,6 +12,9 @@ from cell_level_stats import cliffs_delta, exact_permutation_gap  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[1]
 REV = Path(os.environ.get("OUT_DIR", REPO / "reports" / "tables" / "revision"))
+CORE = ["phiusiil", "mendeley_phishurl", "kaggle_malicious", "hannousse", "ebbu2017"]
+# aligned_matched is a subsample of aligned_natural: transfer between them tests on training data
+NESTED = {frozenset({"aligned_natural", "aligned_matched"})}
 AUDITED = {"is_https", "url_length", "path_length", "query_length", "n_slashes",
            "n_question", "n_equals", "n_ampersand", "has_double_slash_path",
            "longest_token_path"}
@@ -20,7 +23,31 @@ AUDITED = {"is_https", "url_length", "path_length", "query_length", "n_slashes",
 def load():
     frames = [pd.read_csv(p) for p in (REV / "matrix_results.csv", REV / "char_cnn_results.csv",
                                        REV / "transformer_results.csv") if p.exists()]
-    return pd.concat(frames, ignore_index=True)
+    df = pd.concat(frames, ignore_index=True)
+    nested = [frozenset({a, b}) in NESTED for a, b in zip(df.train, df.test)]
+    return df[~pd.Series(nested, index=df.index)]
+
+
+def core_only(df):
+    return df[df.train.isin(CORE) & df.test.isin(CORE)]
+
+
+def aligned_summary(c):
+    """Within-dataset results on the aligned corpora and transfer between them and the core."""
+    rows = []
+    for (model, fs), g in c.groupby(["model", "featset"]):
+        for a in sorted(set(g.train) - set(CORE)):
+            w = g[(g.train == a) & (g.test == a)]
+            to_core = g[(g.train == a) & g.test.isin(CORE)]
+            from_core = g[g.train.isin(CORE) & (g.test == a)]
+            rows.append({"model": model, "featset": fs, "aligned": a,
+                         "within": round(w.roc_auc.mean(), 4),
+                         "within_tpr_fpr_0.01": round(w["tpr_at_fpr_0.01"].mean(), 4),
+                         "to_core": round(to_core.roc_auc.mean(), 4),
+                         "to_core_inverted": int((to_core.roc_auc < 0.5).sum()),
+                         "from_core": round(from_core.roc_auc.mean(), 4),
+                         "from_core_inverted": int((from_core.roc_auc < 0.5).sum())})
+    return pd.DataFrame(rows)
 
 
 def cells(df, variant="raw"):
@@ -130,7 +157,14 @@ def main():
     print(gate(c))
     ms = model_summary(c)
     ms.to_csv(REV / "summary_models.csv", index=False)
-    print("\n== models (raw test sets)\n", ms.to_string(index=False))
+    print("\n== models, every corpus (raw test sets)\n", ms.to_string(index=False))
+    if set(c.train) - set(CORE):
+        mc = model_summary(core_only(c))
+        mc.to_csv(REV / "summary_models_core.csv", index=False)
+        print("\n== models, five core corpora only\n", mc.to_string(index=False))
+        al = aligned_summary(c)
+        al.to_csv(REV / "summary_aligned.csv", index=False)
+        print("\n== aligned corpora\n", al.to_string(index=False))
     ov = overlap_summary(df)
     ov.to_csv(REV / "summary_overlap.csv", index=False)
     print("\n== overlap-controlled transfer\n", ov.to_string(index=False))

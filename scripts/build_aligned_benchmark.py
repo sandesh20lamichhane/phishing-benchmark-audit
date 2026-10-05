@@ -36,7 +36,9 @@ import hashlib
 import json
 import os
 import random
+import re
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -84,6 +86,19 @@ def get(url, timeout=60, retries=6, headers=None):
     return None
 
 
+BARE_HOST = re.compile(r"^([a-z][a-z0-9+.-]*://[^/?#]*)(?=$|[?#])", re.I)
+
+
+def canonical(url):
+    """Write a bare host with its root path, as a browser or crawler does.
+
+    Common Crawl records every capture of a site root as `scheme://host/`, while
+    a quarter of feed phishing URLs end at the host. Left alone, an empty path
+    would mark phishing by construction, so both classes get the same form.
+    """
+    return BARE_HOST.sub(r"\1/", url.strip())
+
+
 def cap_per_domain(df, k, seed):
     return (df.sample(frac=1, random_state=seed)
               .groupby("domain", group_keys=False).head(k)
@@ -97,7 +112,7 @@ def phishing_urls(out_dir, k, seed):
     (out_dir / "phishing-links-ACTIVE.txt").write_bytes(raw)
     sha = hashlib.sha256(raw).hexdigest()
     urls = [u.strip() for u in raw.decode("utf-8", "replace").splitlines()]
-    urls = [u for u in urls if u.lower().startswith(("http://", "https://"))]
+    urls = [canonical(u) for u in urls if u.lower().startswith(("http://", "https://"))]
     df = pd.DataFrame({"url": urls})
     df["norm"] = df.url.map(rx.normalise)
     df = df.drop_duplicates("norm")
@@ -115,15 +130,22 @@ def crawl_ids():
     return [c["id"] for c in json.loads(body)]
 
 
-def load_cluster(crawl, work):
-    """The crawl's cluster.idx: first SURT key, shard, offset and length of every index block."""
-    path = work / f"cluster-{crawl}.idx"
+def load_cluster(crawl):
+    """The crawl's cluster.idx: first SURT key, shard, offset and length of every index block.
+
+    Kept on local disk, not in the Drive-backed data folder: it is large,
+    re-downloadable, and Drive's mount has failed on writing it.
+    """
+    path = Path(os.environ.get("CC_INDEX_DIR", tempfile.gettempdir())) / f"cluster-{crawl}.idx"
     if not path.exists():
         url = f"{CC_DATA}/cc-index/collections/{crawl}/indexes/cluster.idx"
         body = get(url, timeout=600)
         if not body:
             return None
-        path.write_bytes(body)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        part = path.with_suffix(".part")
+        part.write_bytes(body)
+        part.replace(path)
     keys, blocks = [], []
     with open(path, encoding="utf-8", errors="replace") as f:
         for line in f:
@@ -204,7 +226,7 @@ def legit_urls(tranco, n_domains, k, workers, work, seed, crawl=None):
         domains += rng.sample(band, n_domains // len(BANDS))
     index = None
     for cid in ([crawl] if crawl else crawl_ids()[:3]):
-        index = load_cluster(cid, work)
+        index = load_cluster(cid)
         if index:
             crawl = cid
             break
@@ -243,7 +265,7 @@ def legit_urls(tranco, n_domains, k, workers, work, seed, crawl=None):
     for d, urls in got.items():
         uniq = sorted(set(u for u in urls if not u.lower().endswith(("robots.txt", ".xml"))))
         for u in random.Random(f"{seed}-{d}").sample(uniq, min(k, len(uniq))):
-            rows.append({"url": u, "tranco_domain": d})
+            rows.append({"url": canonical(u), "tranco_domain": d})
     df = pd.DataFrame(rows)
     df["norm"] = df.url.map(rx.normalise)
     df = df.drop_duplicates("norm")
@@ -302,7 +324,9 @@ def main():
         "built_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "phishing_source": PHISH_URL, "phishing_list_sha256": sha,
         "common_crawl_id": crawl_id, "common_crawl_lookup": cc_stats,
-        "matched_strata": "https x www. x empty path x query", "tranco_bands": BANDS,
+        "matched_strata": "https x www. x empty path x query",
+        "url_canonicalisation": "bare host written with root path '/', both classes",
+        "tranco_bands": BANDS,
         "domains_requested": a.domains, "per_domain_cap": a.per_domain, "seed": a.seed,
         "natural": {"n": len(natural), "phish": int(natural.label.sum())},
         "matched": {"n": len(match), "phish": int(match.label.sum())},
