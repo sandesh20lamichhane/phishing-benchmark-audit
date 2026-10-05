@@ -436,8 +436,22 @@ STEPS = {"audit": step_audit, "xgb": step_xgb, "lr": step_lr, "tfidf": step_tfid
          "tranco": step_tranco, "mendeley": step_mendeley, "www": step_www}
 
 
+def purge(keys):
+    """Remove every result row that trains or tests on one of `keys`, so the runners recompute them."""
+    for name in RESULT_FILES:
+        p = OUT / name
+        if p.exists():
+            d = pd.read_csv(p)
+            hit = d.train.isin(keys) | d.test.isin(keys)
+            d[~hit].to_csv(p, index=False)
+            print(f"[purge] {name}: removed {int(hit.sum()):,} rows", flush=True)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    if sys.argv[1:2] == ["purge"]:
+        purge(sys.argv[2:])
+        return
     steps = sys.argv[1:] or ["load", *STEPS]
     canon = build_canon()
     for name in steps:
