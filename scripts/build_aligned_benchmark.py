@@ -16,9 +16,11 @@ Two corpora are written to EXTRA_DIR (default data/raw/extra):
 
   aligned_natural.csv  both classes as collected, balanced by count
   aligned_matched.csv  additionally subsampled so that the joint distribution
-                       of (HTTPS, www. prefix, empty path, query present) is
+                       of (HTTPS, www. prefix, root page, query present) is
                        identical in both classes: those properties carry no
-                       information by construction
+                       information by construction. "Root page" means the path
+                       is empty or "/", since URLs are canonicalised to end a
+                       bare host with "/".
 
 plus aligned_manifest.json (sources, crawl id, list checksum, counts).
 
@@ -29,6 +31,10 @@ cached per domain and the script resumes.
 Usage:
     TRANCO=/path/to/tranco_top1m.csv python scripts/build_aligned_benchmark.py \
         [--domains 3000] [--per-domain 5] [--workers 4] [--crawl CC-MAIN-YYYY-WW]
+
+    python scripts/build_aligned_benchmark.py --rematch
+        rebuilds aligned_matched.csv from the existing aligned_natural.csv
+        without any network access.
 """
 import argparse
 import bisect
@@ -280,8 +286,11 @@ def strata(urls):
     X = rx.uf.build_canonical_matrix(urls)
     www = rx.strip_www(urls.str.strip()).ne(urls.str.strip())
     return (X.is_https.astype(str) + www.astype(int).astype(str)
-            + (X.path_length == 0).astype(int).astype(str)
+            + (X.path_length <= 1).astype(int).astype(str)
             + (X.query_length > 0).astype(int).astype(str)).to_numpy()
+
+
+MATCHED_STRATA = "https x www. x root page (path empty or '/') x query"
 
 
 def matched(df, seed):
@@ -301,10 +310,15 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--crawl", default=None, help="Common Crawl id; default: the newest with an index")
+    ap.add_argument("--rematch", action="store_true",
+                    help="only rebuild aligned_matched.csv from the existing aligned_natural.csv")
     a = ap.parse_args()
 
     out = rx.EXTRA
     out.mkdir(parents=True, exist_ok=True)
+    if a.rematch:
+        rematch(out, a.seed)
+        return
     work = out.parent / "aligned_work"
     work.mkdir(parents=True, exist_ok=True)
 
@@ -324,7 +338,7 @@ def main():
         "built_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "phishing_source": PHISH_URL, "phishing_list_sha256": sha,
         "common_crawl_id": crawl_id, "common_crawl_lookup": cc_stats,
-        "matched_strata": "https x www. x empty path x query",
+        "matched_strata": MATCHED_STRATA,
         "url_canonicalisation": "bare host written with root path '/', both classes",
         "tranco_bands": BANDS,
         "domains_requested": a.domains, "per_domain_cap": a.per_domain, "seed": a.seed,
@@ -332,6 +346,19 @@ def main():
         "matched": {"n": len(match), "phish": int(match.label.sum())},
     }
     (out.parent / "aligned_manifest.json").write_text(json.dumps(manifest, indent=2))
+    print(json.dumps(manifest, indent=2))
+
+
+def rematch(out, seed):
+    natural = pd.read_csv(out / "aligned_natural.csv")
+    match = matched(natural, seed)
+    match.to_csv(out / "aligned_matched.csv", index=False)
+    path = out.parent / "aligned_manifest.json"
+    manifest = json.loads(path.read_text()) if path.exists() else {}
+    manifest.update({"matched_strata": MATCHED_STRATA,
+                     "matched_rebuilt_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                     "matched": {"n": len(match), "phish": int(match.label.sum())}})
+    path.write_text(json.dumps(manifest, indent=2))
     print(json.dumps(manifest, indent=2))
 
 
