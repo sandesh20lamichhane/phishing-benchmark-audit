@@ -436,13 +436,20 @@ STEPS = {"audit": step_audit, "xgb": step_xgb, "lr": step_lr, "tfidf": step_tfid
          "tranco": step_tranco, "mendeley": step_mendeley, "www": step_www}
 
 
-def purge(keys):
-    """Remove every result row that trains or tests on one of `keys`, so the runners recompute them."""
+def purge(args):
+    """purge KEY... [file=a,b] [seed=N]: remove result rows that train or test on KEY,
+    optionally only in files whose name contains a or b and only for seed N,
+    so the runners recompute them."""
+    opts = dict(a.split("=", 1) for a in args if "=" in a)
+    keys = [a for a in args if "=" not in a]
+    pick = opts.get("file", "").split(",")
     for name in RESULT_FILES:
         p = OUT / name
-        if p.exists():
+        if p.exists() and any(f in name for f in pick):
             d = pd.read_csv(p)
             hit = d.train.isin(keys) | d.test.isin(keys)
+            if "seed" in opts:
+                hit &= d.seed.astype(str) == opts["seed"]
             d[~hit].to_csv(p, index=False)
             print(f"[purge] {name}: removed {int(hit.sum()):,} rows", flush=True)
 
