@@ -1,0 +1,16 @@
+dataset,model,auc_xgb,auc_other,diff,p_raw,p_holm
+phiusiil,NaiveBayes,0.999121,0.997687,0.001433,2.2e-05,0.000134
+phiusiil,LogisticReg,0.999121,0.99846,0.00066,0.032492,0.162459
+phiusiil,RandomForest,0.999121,0.999365,-0.000244,0.162294,0.486881
+mendeley_phishurl,NaiveBayes,0.996872,0.96335,0.033522,0.0,0.0
+mendeley_phishurl,LogisticReg,0.996872,0.986752,0.01012,0.0,0.0
+mendeley_phishurl,RandomForest,0.996872,0.996461,0.000411,0.323627,0.647254
+kaggle_malicious,NaiveBayes,0.94655,0.795935,0.150615,0.0,0.0
+kaggle_malicious,LogisticReg,0.94655,0.844512,0.102037,0.0,0.0
+kaggle_malicious,RandomForest,0.94655,0.947376,-0.000827,0.613986,0.647254
+hannousse,NaiveBayes,0.943671,0.822218,0.121453,0.0,0.0
+hannousse,LogisticReg,0.943671,0.902773,0.040897,0.0,0.0
+hannousse,RandomForest,0.943671,0.939373,0.004297,0.086552,0.34621
+ebbu2017,NaiveBayes,0.974012,0.864554,0.109458,0.0,0.0
+ebbu2017,LogisticReg,0.974012,0.952344,0.021668,0.0,0.0
+ebbu2017,RandomForest,0.974012,0.968513,0.005499,0.0,0.0
