@@ -1,12 +1,29 @@
 cff-version: 1.2.0
 title: "Structural Artefacts in Phishing URL Benchmarks: code and result tables"
 message: "If you use this software or its results, please cite the paper."
+type: software
+version: 2.0.0
 authors:
   - family-names: Lamichhane
     given-names: Sandesh
+    affiliation: "Yenepoya (Deemed to be University), Bengaluru, India"
   - family-names: Aijaz N
     given-names: Usman
+    affiliation: "Yenepoya (Deemed to be University), Bengaluru, India"
   - family-names: Sadath P
     given-names: Mohammed
+    affiliation: "Yenepoya (Deemed to be University), Bengaluru, India"
+abstract: >-
+  Code, notebooks, result tables and figures for an audit of five widely used
+  public phishing URL benchmarks, showing that they encode collection
+  conventions that inflate within-dataset results and can cause systematic
+  cross-dataset prediction inversion, and that a simple pre-model audit
+  exposes this.
+keywords:
+  - phishing detection
+  - dataset bias
+  - benchmark validity
+  - cross-dataset transfer
+  - machine learning evaluation
 license: MIT
 repository-code: "https://github.com/sandesh20lamichhane/phishing-benchmark-audit"

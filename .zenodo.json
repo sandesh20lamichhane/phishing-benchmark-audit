@@ -1,0 +1,38 @@
+{
+  "title": "Structural Artefacts in Phishing URL Benchmarks: code and result tables",
+  "upload_type": "software",
+  "version": "v2.0.0",
+  "description": "<p>Code, notebooks, result tables and figures for the paper \"Structural Artefacts in Phishing URL Benchmarks: An Audit of Five Public Datasets and the Failure of Cross-Dataset Transfer\".</p><p>The study audits five widely used public phishing URL benchmarks and shows that they encode collection conventions that inflate within-dataset results and can cause systematic cross-dataset prediction inversion, and that a simple pre-model audit exposes this. Version 2.0.0 is the journal revision: full-file provenance checks (Mendeley PhishURL derived from Kaggle Malicious; PhishStorm inside Kaggle Malicious with inverted labels), ablations, overlap-controlled transfer, operating points, TreeSHAP attribution, character CNN and DistilBERT models, a procedure-aligned benchmark built from Phishing.Database and Common Crawl, and the headline statistics and transfer heat map recomputed in one environment.</p><p>The two procedure-aligned sets used in the paper are included in datasets/aligned/. The third-party benchmark datasets are not redistributed; checksums.txt lists the SHA-256 of every file used.</p>",
+  "creators": [
+    {
+      "name": "Lamichhane, Sandesh",
+      "affiliation": "Yenepoya (Deemed to be University), Bengaluru, India"
+    },
+    {
+      "name": "Aijaz N, Usman",
+      "affiliation": "Yenepoya (Deemed to be University), Bengaluru, India"
+    },
+    {
+      "name": "Sadath P, Mohammed",
+      "affiliation": "Yenepoya (Deemed to be University), Bengaluru, India"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "phishing detection",
+    "dataset bias",
+    "benchmark validity",
+    "cross-dataset transfer",
+    "machine learning evaluation"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.21756633",
+      "relation": "isNewVersionOf",
+      "scheme": "doi",
+      "resource_type": "software"
+    }
+  ]
+}

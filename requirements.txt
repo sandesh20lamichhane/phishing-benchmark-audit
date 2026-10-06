@@ -1,9 +1,19 @@
-# versions used for the reported runs (Google Colab, August 2026)
+# Primary environment for every headline number in the paper
+# (reports/tables/revision/): Python 3.11
 pandas
 numpy
-scikit-learn==1.6.1
-xgboost==3.3.0
 scipy
+scikit-learn==1.9.1
+xgboost==3.2.0
 matplotlib
 tldextract
 requests
+# GPU models (scripts/char_cnn.py, scripts/transformer_url.py), run on Colab
+# with its preinstalled torch and transformers
+torch
+transformers
+# scripts/fetch_extra_datasets.py only
+kagglehub
+# Notebooks 06-09 (original study) ran on Colab with scikit-learn 1.6.1 and
+# xgboost 3.3.0; notebook 10 uses Colab's preinstalled versions (recorded in
+# reports/tables/revision_colab/README.md).

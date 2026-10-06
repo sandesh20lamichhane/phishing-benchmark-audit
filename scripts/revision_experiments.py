@@ -1,6 +1,6 @@
 """Revision experiments for the journal version of the paper.
 
-Runs, on the five independent corpora and the PhishStorm probe, under the
+Runs, on the five core corpora and the PhishStorm probe, under the
 protocol of notebook 09 (same loaders, same 60k cap and sampling sequence,
 same XGBoost configuration, same domain-grouped within-dataset split):
 
@@ -26,7 +26,7 @@ Usage:
     RAW_DIR=/path/to/data/raw TRANCO=/path/to/tranco_top1m.csv \
         python scripts/revision_experiments.py [step ...]
 
-Steps: load, audit, xgb, lr, tfidf, shap, tranco, mendeley (default: all).
+Steps: load, audit, xgb, lr, tfidf, shap, tranco, mendeley, www (default: all).
 Every step appends to its CSV under OUT_DIR (default
 reports/tables/revision/) and resumes.
 """
