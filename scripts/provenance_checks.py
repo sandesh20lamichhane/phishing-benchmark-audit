@@ -72,13 +72,21 @@ def mendeley_prefix(k, m):
     j = m.merge(k, on="norm", suffixes=("_md", "_kg")).drop_duplicates("norm")
     legit = j[(j.label_md == 0) & (j.label_kg == 0)]
     added = ~has_www(legit.url_kg) & legit.url_md.str.lower().str.startswith("https://www.")
+    # a www. label in front of an existing subdomain (www.blog.example.com) is
+    # what concatenation produces and a crawler would rarely record
+    host = legit.url_md.str.lower().str.extract(r"^https://www\.([^/:?#]+)")[0]
+    dom = host.map(lambda h: rx.uf.registrable_domain(h) if isinstance(h, str) else None)
+    before_sub = (host != dom) & dom.notna()
     return {"shared_urls": len(j),
             "shared_share_of_mendeley": round(len(j) / m.norm.nunique(), 4),
             "label_agreement": round(float((j.label_md == j.label_kg).mean()), 4),
             "shared_legitimate_share": round(float((j.label_md == 0).mean()), 4),
             "shared_legitimate_both": len(legit),
             "kaggle_no_www_mendeley_https_www": int(added.sum()),
-            "examples": legit[added].url_md.head(5).tolist()}
+            "kaggle_with_scheme": int(legit.url_kg.str.contains("://", regex=False).sum()),
+            "mendeley_www_before_subdomain": int(before_sub.sum()),
+            "examples": legit[added].url_md.head(5).tolist(),
+            "examples_www_before_subdomain": legit[before_sub].url_md.head(5).tolist()}
 
 
 def phishstorm_flip(k, p):

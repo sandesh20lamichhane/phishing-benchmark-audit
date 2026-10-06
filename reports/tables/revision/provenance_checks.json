@@ -6,12 +6,21 @@
     "shared_legitimate_share": 0.9965,
     "shared_legitimate_both": 339802,
     "kaggle_no_www_mendeley_https_www": 339802,
+    "kaggle_with_scheme": 0,
+    "mendeley_www_before_subdomain": 81797,
     "examples": [
       "https://www.google.com",
       "https://www.facebook.com",
       "https://www.yahoo.com",
       "https://www.google.co.in",
       "https://www.amazon.com"
+    ],
+    "examples_www_before_subdomain": [
+      "https://www.abc.go.com",
+      "https://www.appzeropoint.blogspot.com/",
+      "https://www.apresidentsblogbypjrudden.blogspot.com/",
+      "https://www.april-wine.freedownloadmp3.net/",
+      "https://www.april-wine.thelyricarchive.com/"
     ]
   },
   "kaggle_contains_phishstorm_flipped": {
