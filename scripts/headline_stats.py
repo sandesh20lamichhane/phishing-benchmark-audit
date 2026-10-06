@@ -10,8 +10,8 @@ revision_experiments.py) and writes to OUT_DIR:
   headline_asymmetry.csv        each pair's two directions over seeds:
                                 magnitude, Mann-Whitney U, Holm correction
 
-With --figure PATH it also draws the transfer heat map. With --baselines it
-loads the corpora (RAW_DIR / CACHE_DIR as for revision_experiments.py) and adds
+The paper's heat map is drawn from headline_transfer_matrix.csv by
+scripts/make_heatmap.py. With --baselines this script also loads the corpora (RAW_DIR / CACHE_DIR as for revision_experiments.py) and adds
 
   headline_delong.csv           XGBoost against naive Bayes, logistic regression
                                 and random forest on the seed-42 domain-grouped
@@ -19,7 +19,7 @@ loads the corpora (RAW_DIR / CACHE_DIR as for revision_experiments.py) and adds
   headline_phishstorm_probe.csv PhiUSIIL -> PhishStorm transfer, five seeds
 
 Usage:
-    python scripts/headline_stats.py [--figure PATH] [--baselines]
+    python scripts/headline_stats.py [--baselines]
 """
 import argparse
 import itertools
@@ -35,8 +35,6 @@ import revision_experiments as rx  # noqa: E402
 from cell_level_stats import cliffs_delta, exact_permutation_gap  # noqa: E402
 
 ORDER = ["phiusiil", "mendeley_phishurl", "kaggle_malicious", "hannousse", "ebbu2017"]
-NAMES = {"phiusiil": "PhiUSIIL", "mendeley_phishurl": "Mendeley PhishURL",
-         "kaggle_malicious": "Kaggle Malicious", "hannousse": "Hannousse", "ebbu2017": "Ebbu2017"}
 
 
 def holm(p):
@@ -60,7 +58,7 @@ def headline(d):
     cells = d.groupby(["train", "test"]).roc_auc.agg(["mean", "std"]).reset_index()
     mat = cells.pivot(index="train", columns="test", values="mean").reindex(index=ORDER, columns=ORDER)
     sd = cells.pivot(index="train", columns="test", values="std").reindex(index=ORDER, columns=ORDER)
-    out = mat.round(4).add_suffix("_mean").join(sd.round(4).add_suffix("_sd"))
+    out = mat.round(6).add_suffix("_mean").join(sd.round(6).add_suffix("_sd"))
     out.to_csv(rx.OUT / "headline_transfer_matrix.csv")
     diag = np.eye(len(ORDER), dtype=bool)
     w, c = mat.to_numpy()[diag], mat.to_numpy()[~diag]
@@ -91,31 +89,6 @@ def asymmetry(d):
     out = out.sort_values("magnitude", ascending=False).round(4)
     out.to_csv(rx.OUT / "headline_asymmetry.csv", index=False)
     print(out.to_string(index=False))
-
-
-def figure(mat, path):
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    plt.rcParams.update({"font.family": "serif", "font.size": 6})
-    fig, ax = plt.subplots(figsize=(4.0, 3.15))
-    v = mat.to_numpy()
-    im = ax.imshow(v, cmap="RdYlGn", vmin=0.0, vmax=1.0, aspect="equal")
-    labels = [NAMES[k] for k in ORDER]
-    ax.set_xticks(range(len(ORDER)), labels, rotation=35, ha="right")
-    ax.set_yticks(range(len(ORDER)), labels)
-    for i, j in itertools.product(range(len(ORDER)), repeat=2):
-        inv = v[i, j] < 0.5
-        ax.text(j, i, f"{v[i, j]:.3f}", ha="center", va="center", fontsize=6,
-                fontweight="bold" if inv else "normal")
-        if inv:
-            ax.add_patch(plt.Rectangle((j - .5, i - .5), 1, 1, fill=False, edgecolor="blue", lw=1.5))
-    ax.set_xlabel("Evaluation dataset")
-    ax.set_ylabel("Training dataset")
-    fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="ROC-AUC")
-    fig.tight_layout()
-    fig.savefig(path, bbox_inches="tight")
-    print(f"[figure] {path}")
 
 
 def baselines():
@@ -162,14 +135,11 @@ def baselines():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--figure", type=Path, default=None)
     ap.add_argument("--baselines", action="store_true")
     a = ap.parse_args()
     d = xgb_full_cells()
-    mat = headline(d)
+    headline(d)
     asymmetry(d)
-    if a.figure:
-        figure(mat, a.figure)
     if a.baselines:
         baselines()
 
