@@ -1,0 +1,17 @@
+dataset,class,n,bare_root_pct,in_tranco_top10k_pct,in_tranco_top100k_pct,in_tranco_top1000k_pct
+phiusiil,legit,34397,100.0,2.56,10.14,32.9
+phiusiil,phish,25603,72.96,24.59,40.1,45.0
+mendeley_phishurl,legit,41067,14.93,35.75,52.3,66.79
+mendeley_phishurl,phish,18933,21.7,18.41,28.28,34.27
+kaggle_malicious,legit,49169,12.43,33.93,49.47,62.28
+kaggle_malicious,phish,10831,25.74,22.94,33.63,42.18
+hannousse,legit,5715,38.69,29.34,46.23,64.55
+hannousse,phish,5715,19.79,19.48,27.52,32.77
+ebbu2017,legit,29640,4.89,37.57,59.07,75.43
+ebbu2017,phish,30360,1.88,0.5,2.9,4.04
+aligned_matched,legit,5030,9.62,39.76,72.19,100.0
+aligned_matched,phish,5030,9.62,0.34,1.33,3.04
+aligned_natural,legit,8168,6.45,37.68,70.59,100.0
+aligned_natural,phish,8168,26.95,0.34,1.33,3.04
+phishstorm,legit,30007,0.35,37.8,53.79,65.57
+phishstorm,phish,29993,8.57,4.23,9.24,15.92

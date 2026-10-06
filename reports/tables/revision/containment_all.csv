@@ -1,0 +1,16 @@
+a,b,shared,containment
+phiusiil,mendeley_phishurl,222,0.0037
+phiusiil,kaggle_malicious,34,0.0006
+phiusiil,hannousse,62,0.0056
+phiusiil,ebbu2017,30,0.0007
+phiusiil,phishstorm,0,0.0
+mendeley_phishurl,kaggle_malicious,4618,0.0773
+mendeley_phishurl,hannousse,153,0.0138
+mendeley_phishurl,ebbu2017,1460,0.0338
+mendeley_phishurl,phishstorm,24,0.0004
+kaggle_malicious,hannousse,347,0.0313
+kaggle_malicious,ebbu2017,31,0.0007
+kaggle_malicious,phishstorm,7199,0.1209
+hannousse,ebbu2017,3421,0.309
+hannousse,phishstorm,8,0.0007
+ebbu2017,phishstorm,34,0.0008

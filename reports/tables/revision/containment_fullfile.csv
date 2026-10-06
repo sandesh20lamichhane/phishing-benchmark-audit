@@ -1,0 +1,16 @@
+a,b,n_a,n_b,shared,containment,label_agreement
+phiusiil,mendeley_phishurl,231790,488992,6747,0.0291,0.9964
+phiusiil,kaggle_malicious,231790,514053,1247,0.0054,0.9912
+phiusiil,hannousse,231790,11070,225,0.0203,1.0
+phiusiil,ebbu2017,231790,50234,130,0.0026,0.9385
+phiusiil,phishstorm,231790,94648,0,0.0,
+mendeley_phishurl,kaggle_malicious,488992,514053,341183,0.6977,0.9993
+mendeley_phishurl,hannousse,488992,11070,998,0.0902,0.999
+mendeley_phishurl,ebbu2017,488992,50234,9675,0.1926,1.0
+mendeley_phishurl,phishstorm,488992,94648,307,0.0032,1.0
+kaggle_malicious,hannousse,514053,11070,2540,0.2294,0.9972
+kaggle_malicious,ebbu2017,514053,50234,250,0.005,0.812
+kaggle_malicious,phishstorm,514053,94648,94648,1.0,0.0426
+hannousse,ebbu2017,11070,50234,4008,0.3621,1.0
+hannousse,phishstorm,11070,94648,13,0.0012,1.0
+ebbu2017,phishstorm,50234,94648,52,0.001,1.0

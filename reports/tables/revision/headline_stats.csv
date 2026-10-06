@@ -1,0 +1,2 @@
+within_mean,within_sd,cross_mean,cross_sd,gap,perm_hits,perm_total,perm_p_one_sided,cliffs_delta,cross_min,cross_max,n_inverted,n_below_0.46,max_sd_within,max_sd_cross
+0.9728,0.0268,0.6654,0.2759,0.3074,34,53130,0.0006,0.88,0.1923,0.9789,6,6,0.0119,0.0573

@@ -1,0 +1,25 @@
+extra,other,extra_urls,other_urls,shared,status,containment
+kaggle_malicious_benign_urls,phiusiil,437729,231790,1851,duplicate (moved earlier),0.008
+kaggle_malicious_benign_urls,hannousse,437729,11070,984,duplicate (moved earlier),0.0889
+kaggle_malicious_benign_urls,kaggle_malicious,437729,514053,341157,duplicate (moved earlier),0.7794
+kaggle_malicious_benign_urls,mendeley_phishurl,437729,488992,437729,duplicate (moved earlier),1.0
+kaggle_malicious_benign_urls,ebbu2017,437729,50234,9675,duplicate (moved earlier),0.1926
+kaggle_malicious_benign_urls,phishstorm,437729,94648,305,duplicate (moved earlier),0.0032
+kaggle_phishing_site_urls,phiusiil,501446,231790,1287,duplicate (moved earlier),0.0056
+kaggle_phishing_site_urls,hannousse,501446,11070,361,duplicate (moved earlier),0.0326
+kaggle_phishing_site_urls,kaggle_malicious,501446,514053,439715,duplicate (moved earlier),0.8769
+kaggle_phishing_site_urls,mendeley_phishurl,501446,488992,401951,duplicate (moved earlier),0.822
+kaggle_phishing_site_urls,ebbu2017,501446,50234,6659,duplicate (moved earlier),0.1326
+kaggle_phishing_site_urls,phishstorm,501446,94648,94648,duplicate (moved earlier),1.0
+aligned_matched,phiusiil,9512,231790,59,built here,0.0062
+aligned_matched,hannousse,9512,11070,4,built here,0.0004
+aligned_matched,kaggle_malicious,9512,514053,6,built here,0.0006
+aligned_matched,mendeley_phishurl,9512,488992,21,built here,0.0022
+aligned_matched,ebbu2017,9512,50234,1,built here,0.0001
+aligned_matched,phishstorm,9512,94648,0,built here,0.0
+aligned_natural,phiusiil,16336,231790,106,built here,0.0065
+aligned_natural,hannousse,16336,11070,9,built here,0.0008
+aligned_natural,kaggle_malicious,16336,514053,12,built here,0.0007
+aligned_natural,mendeley_phishurl,16336,488992,59,built here,0.0036
+aligned_natural,ebbu2017,16336,50234,3,built here,0.0002
+aligned_natural,phishstorm,16336,94648,0,built here,0.0
