@@ -26,7 +26,8 @@ Added:
 - `scripts/char_cnn.py` and `scripts/transformer_url.py`: character CNN and
   fine-tuned DistilBERT on raw URLs.
 - `scripts/build_aligned_benchmark.py`: the procedure-aligned benchmark from
-  Phishing.Database and Common Crawl, with its manifest.
+  Phishing.Database and Common Crawl, with its manifest, and the two sets used
+  in the paper in `datasets/aligned/`.
 - `scripts/fetch_extra_datasets.py`: two further Kaggle corpora, both found to
   duplicate existing benchmarks and excluded.
 - `scripts/headline_stats.py` and `scripts/make_heatmap.py`: the paper's

@@ -59,6 +59,7 @@ ranking.
                                revision results from Colab (GPU models and the
                                aligned benchmark); see its README.md
     reports/figures/           the three figures of the paper
+    datasets/aligned/          the two procedure-aligned sets used in the paper
     checksums.txt              SHA-256 of every raw dataset file used
 
 ## Data (not included — fetch, then verify)
@@ -131,8 +132,9 @@ and aggregates as the findings and third-decimal values as
 environment-dependent.
 
 The procedure-aligned benchmark is built from a live phishing feed, so a
-rebuild on a later date gives a different set; `aligned_manifest.json` records
-the feed checksum, crawl id and counts of the set used in the paper.
+rebuild on a later date gives a different set. The two sets used in the paper
+are in `datasets/aligned/`; copy them into `data/raw/extra/` to rerun Table 8
+on exactly those URLs.
 
 ## License
 
