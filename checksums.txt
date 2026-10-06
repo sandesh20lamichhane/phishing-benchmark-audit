@@ -8,3 +8,10 @@ cb4e29fc9a16e20c6f9b3a157ac68e6605be2515b5b641211642d80fdde2169d  phiusiil/phius
 c513d1f11b0ce159d43a23b465af2a65f752c6f65a816c2a8084f2a2adf2ebf6  ebbu2017/data_phishing_37175.json
 f7229c4f5f105a74f5b72df71ed8154f9fca10b6535b488192434fd988c848d3  phishstorm/urlset.csv
 1525001bc352b6ab4e7272ae650ef4dd91ce97efd26802694e49966274223d74  phishstorm/mirror-tarball.tar.gz
+
+# Written by notebook 09 from the source files above; read by scripts/
+9aad35dc1d308c4994fd88ae5fa246723551c20b5a74af6490e29b4a2c479a71  ebbu2017/ebbu2017.csv
+561d10c0473bb0a661a07dab2b89fc8eca0976a851e10e49964455e52ce20211  phishstorm/phishstorm.csv
+
+# Tranco top-1M list, downloaded 2026-07-24 (TRANCO for scripts/)
+d736cee4581cd7b103dcd3aabccd35e76535737b842459206f094ca926158728  ../external/tranco/tranco_top1m.csv
