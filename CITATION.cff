@@ -3,6 +3,8 @@ title: "Structural Artefacts in Phishing URL Benchmarks: code and result tables"
 message: "If you use this software or its results, please cite the paper."
 type: software
 version: 2.0.0
+doi: 10.5281/zenodo.23184584
+date-released: 2026-10-06
 authors:
   - family-names: Lamichhane
     given-names: Sandesh

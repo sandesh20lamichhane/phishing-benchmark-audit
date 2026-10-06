@@ -1,5 +1,7 @@
 # Structural Artefacts in Phishing URL Benchmarks
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23184584.svg)](https://doi.org/10.5281/zenodo.23184584)
+
 Code and result tables for:
 
 > S. Lamichhane, U. Aijaz N, and M. Sadath P, "Structural Artefacts in Phishing
@@ -135,6 +137,13 @@ The procedure-aligned benchmark is built from a live phishing feed, so a
 rebuild on a later date gives a different set. The two sets used in the paper
 are in `datasets/aligned/`; copy them into `data/raw/extra/` to rerun Table 8
 on exactly those URLs.
+
+## Archive
+
+Each release is archived on Zenodo. Release v2.0.0 (the journal revision) is
+[10.5281/zenodo.23184584](https://doi.org/10.5281/zenodo.23184584); release
+v1.0.0 (the original submission) is
+[10.5281/zenodo.21756633](https://doi.org/10.5281/zenodo.21756633).
 
 ## License
 
