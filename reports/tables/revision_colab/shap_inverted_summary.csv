@@ -1,0 +1,9 @@
+train,test,roc_auc,neg_sep_total,audited_share_of_neg_sep,is_https_sep
+kaggle_malicious,aligned_natural,0.4899,1.948,0.542,-0.728
+kaggle_malicious,ebbu2017,0.2946,4.006,0.621,-2.316
+kaggle_malicious,hannousse,0.4482,1.909,0.429,-0.67
+kaggle_malicious,mendeley_phishurl,0.1695,6.391,0.634,-3.885
+kaggle_malicious,phiusiil,0.4071,2.763,0.814,-1.137
+mendeley_phishurl,kaggle_malicious,0.2367,3.141,0.066,-0.062
+phiusiil,aligned_matched,0.4364,1.25,0.314,0.004
+phiusiil,kaggle_malicious,0.2346,2.179,0.273,0.721

@@ -1,0 +1,41 @@
+{
+  "mendeley_is_kaggle_with_https_www": {
+    "shared_urls": 341183,
+    "shared_share_of_mendeley": 0.6977,
+    "label_agreement": 0.9993,
+    "shared_legitimate_share": 0.9965,
+    "shared_legitimate_both": 339802,
+    "kaggle_no_www_mendeley_https_www": 339802,
+    "examples": [
+      "https://www.google.com",
+      "https://www.facebook.com",
+      "https://www.yahoo.com",
+      "https://www.google.co.in",
+      "https://www.amazon.com"
+    ]
+  },
+  "kaggle_contains_phishstorm_flipped": {
+    "shared_rows": 100011,
+    "opposite_labels": 95913,
+    "crosstab_phishstorm_rows_kaggle_cols": {
+      "0": {
+        "0": 34,
+        "1": 48009
+      },
+      "1": {
+        "0": 47904,
+        "1": 4064
+      }
+    },
+    "kaggle_phishing_rows": 94111,
+    "kaggle_benign_rows": 428103,
+    "keyword_rate_by_phishstorm_label": {
+      "0": 0.0043,
+      "1": 0.5104
+    },
+    "keyword_rate_by_kaggle_label": {
+      "0": 0.5256,
+      "1": 0.0294
+    }
+  }
+}

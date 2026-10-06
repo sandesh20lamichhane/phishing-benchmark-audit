@@ -1,0 +1,39 @@
+{
+  "built_utc": "2026-10-05T12:05:15+00:00",
+  "phishing_source": "https://raw.githubusercontent.com/Phishing-Database/Phishing.Database/master/phishing-links-ACTIVE.txt",
+  "phishing_list_sha256": "be4a179b3ac92b7135595b459c2c9867fe681c12209489dd99517db8407a67c6",
+  "common_crawl_id": "CC-MAIN-2026-39",
+  "common_crawl_lookup": {
+    "domains_with_captures": 1790,
+    "domains_without": 1210,
+    "domains_failed": 0
+  },
+  "matched_strata": "https x www. x root page (path empty or '/') x query",
+  "url_canonicalisation": "bare host written with root path '/', both classes",
+  "tranco_bands": [
+    [
+      1,
+      10000
+    ],
+    [
+      10001,
+      100000
+    ],
+    [
+      100001,
+      1000000
+    ]
+  ],
+  "domains_requested": 3000,
+  "per_domain_cap": 5,
+  "seed": 42,
+  "natural": {
+    "n": 16336,
+    "phish": 8168
+  },
+  "matched": {
+    "n": 10060,
+    "phish": 5030
+  },
+  "matched_rebuilt_utc": "2026-10-05T17:26:38+00:00"
+}
