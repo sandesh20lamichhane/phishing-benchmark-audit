@@ -4,7 +4,7 @@ Code and result tables for:
 
 > S. Lamichhane, U. Aijaz N, and M. Sadath P, "Structural Artefacts in Phishing
 > URL Benchmarks: An Audit of Five Public Datasets and the Failure of
-> Cross-Dataset Transfer." Manuscript prepared for AICCoNS 2027.
+
 
 Machine learning models for phishing URL detection routinely report accuracies
 above 99% on public benchmarks. We audit five independent public datasets with a
